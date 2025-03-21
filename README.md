@@ -1,5 +1,5 @@
-# inspector-sbom-scanner
-A Docker Image which allows the inspector sbom scanner binary to run on Docker through the host.
+# security-scan-toolbox
+A Docker Image which enables different scanning tools to run on Docker through the host.
 
 ## Running the Docker Container
 
@@ -10,7 +10,7 @@ docker run --rm -it \
   -v ~/.aws/:/root/.aws/:ro \
   -v /var/run/docker.sock:/var/run/docker.sock \
   -v "$PWD":"/project" \
-  -e AWS_PROFILE={profile} inspector container --image {imagename:tag} --scan-sbom --scan-sbom-output-format inspector -o scan.json
+  -e AWS_PROFILE={profile} \
 ```
 
 ### Explanation of Configurable Parts
@@ -27,12 +27,6 @@ docker run --rm -it \
 
 ### Output
 
-The command will run the inspector sbom scanner with the specified options and output the results to `scan.json` in the current directory.
+
 
 ### Note
-
-The AWS profile and Docker image tag used in the command will depend on who uses the image. Make sure to replace `{profile}` and `{imagename:tag}` with the appropriate values for your environment.
-
-
- @see {@link https://docs.aws.amazon.com/inspector/latest/user/cicd-custom.html#call-api|AWS Inspector Documentation} for more information on how to run the command.
- */
