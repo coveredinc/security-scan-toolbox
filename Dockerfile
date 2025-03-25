@@ -16,7 +16,7 @@ RUN curl -LO "$TRIVY_URL" && \
 RUN mkdir -p /tmp
 
 
-FROM golang:1.16 AS builder
+FROM golang:latest AS builder
 WORKDIR /build
 COPY ./dispatcher.go /build/
 RUN CGO_ENABLED=0 GOOS=linux go build -o dispatcher dispatcher.go
