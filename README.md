@@ -28,12 +28,18 @@ docker run --rm -it \
 
 - `-v "$PWD":"/project"`: This volume mounts the current working directory to the `/project` directory inside the container. This allows the container to access the files in your current directory.
 
-- `-e AWS_PROFILE={profile}`: This environment variable sets the AWS profile to use. Replace `{profile}` with the name of the AWS profile you want to use.
+- `-e AWS_PROFILE=$(AWS_PROFILE)`: This environment variable sets the AWS profile to use. Replace `$(AWS_PROFILE)` with the name of the AWS profile you want to use.
 
-- `--image {imagename:tag}`: Replace `{imagename:tag}` with the name and tag of the Docker image you want to use.
+- `-e HOME=/root`: This environment variable sets the home directory inside the container.
+
+- `-e AWS_SSO_CACHE_DIR=/root/.aws/sso/cache`: This environment variable sets the AWS SSO cache directory inside the container.
+
+- `security-toolbox inspector-sbomgen container --image security-toolbox --scan-sbom --scan-sbom-output-format inspector -o scan.json`: This command runs the `inspector-sbomgen` tool inside the container, scanning the specified Docker image and outputting the results to `scan.json`.
 
 ### Output
 
-
+The output of the scan will be saved to `scan.json` in the current working directory.
 
 ### Note
+
+Ensure that you have the necessary permissions to access the Docker socket and AWS credentials.
