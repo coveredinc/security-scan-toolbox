@@ -15,14 +15,14 @@ RUN curl -LO "$TRIVY_URL" && \
     mv trivy "$INSTALL_DIR/"
 RUN mkdir -p /tmp
 
-
+# Build the dispatcher
 FROM golang:latest AS builder
 WORKDIR /build
 COPY ./dispatcher.go /build/
 RUN CGO_ENABLED=0 GOOS=linux go build -o dispatcher dispatcher.go
 
     
-
+# Use the latest Alpine image as the base
 FROM scratch
 COPY --from=build /usr/bin/inspector-sbomgen usr/bin/inspector-sbomgen
 COPY --from=build /usr/bin/trivy usr/bin/trivy
