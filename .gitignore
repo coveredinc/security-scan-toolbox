@@ -2,8 +2,13 @@
 **/.terraform/*
 
 # .tfstate files
+<<<<<<< HEAD
 **.tfstate
 **.tfstate.*
+=======
+*.tfstate
+*.tfstate.*
+>>>>>>> 2c9d955 (examples and ezrun script)
 
 # Crash log files
 crash.log

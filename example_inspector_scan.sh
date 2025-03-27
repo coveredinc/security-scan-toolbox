@@ -6,7 +6,7 @@ docker run --rm -it -v ~/.aws/:/root/.aws/:ro \
   -e HOME=/root \
   -e AWS_SSO_CACHE_DIR=/root/.aws/sso/cache \
   security-toolbox inspector-sbomgen container \
-    --image alpine:latest \
+    --image security-toolbox \
     --scan-sbom \
     --scan-sbom-output-format inspector \
     -o scan.json
