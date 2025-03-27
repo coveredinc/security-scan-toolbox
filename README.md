@@ -18,7 +18,7 @@ To build the `security-scan-toolbox` Docker image locally, follow these steps:
 
 1. Clone the repository:
   ```sh
-  git clone https://github.com/your-repo/security-scan-toolbox.git
+  git clone git@github.com:coveredinc/security-scan-toolbox.git
   cd security-scan-toolbox
   ```
 
