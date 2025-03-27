@@ -8,25 +8,48 @@
 
 The dispatcher in this image abstracts the invocation of various scanning tools. Instead of managing multiple containers or commands, you can run a single container that hosts several security tools. This setup ensures:
 - **Consistent Environment:** Your AWS configurations, Docker socket, and project files are mounted inside the container.
-- **Simplified Usage:** You only need to remember one base command and specify the desired scanning tool as a parameter.
 - **Extensibility:** Additional scanners can be integrated later without changing your overall workflow.
 
 ---
 
-## Running the Docker Container
+## Building the Container Locally
 
-Use the following command to run the container locally. Replace `{command}` with the specific scanner command you want to run.
+To build the `security-scan-toolbox` Docker image locally, follow these steps:
+
+1. Clone the repository:
+  ```sh
+  git clone https://github.com/your-repo/security-scan-toolbox.git
+  cd security-scan-toolbox
+  ```
+
+2. Build the Docker image:
+  ```sh
+  docker build -t security-toolbox .
+  ```
+
+3. Verify the image was built successfully:
+  ```sh
+  docker images | grep security-toolbox
+  ```
+
+This will create a local Docker image named `security-toolbox` that you can use for scanning.
+
+## Prebuilt Image Availability
+
+The `security-scan-toolbox` Docker image is also available as a prebuilt image hosted on Amazon ECR. You can pull it using the following command:
 
 ```sh
-docker run --rm -it \
-  -v ~/.aws/:/root/.aws/:ro \
-  -v /var/run/docker.sock:/var/run/docker.sock \
-  -v "$PWD":/project \
-  -e AWS_PROFILE=<your-aws-profile> \
-  -e HOME=/root \
-  -e AWS_SSO_CACHE_DIR=/root/.aws/sso/cache \
-  security-toolbox {command}
+docker pull 025748181824.dkr.ecr.us-west-2.amazonaws.com/appsec/inspector-scanner:latest
 ```
+
+This allows you to skip the local build process and use the latest version directly.
+
+## Usage Instructions
+
+For detailed usage instructions, users can refer to the example scripts provided in the repository. These scripts demonstrate how to use the various tools included in the `security-scan-toolbox`.
+
+Alternatively, users can run the `ez_run` script, which provides an interactive, step-by-step guide to help them through the scanning process. This script simplifies the workflow and ensures all necessary configurations are correctly set up.
+
 
 ### Explanation of Configurable Parts
 
@@ -68,7 +91,7 @@ This command scans the `security-toolbox` Docker image for vulnerabilities and o
 
 ---
 
-## Example Usage
+## Examples
 
 To run an AWS Inspector SBOM scan:
 
@@ -111,6 +134,23 @@ The design of `security-scan-toolbox` is modular. To add new scanners:
 - Update the dispatcher binary to recognize the new command.
 - Document the usage in this README.
 
+
+
+## Permissions for Inspector Scans
+
+To run AWS Inspector scans, ensure the following permissions are granted to your AWS profile:
+
+- **Amazon Inspector Permissions:**
+  - `inspector-scan:ScanSbom`
+
+- **ECR Permissions (if scanning images in Amazon ECR):**
+  - `ecr:DescribeRepositories`
+  - `ecr:ListImages`
+  - `ecr:BatchGetImage`
+  - `ecr:GetAuthorizationToken`
+
+Ensure your AWS profile is configured with these permissions to successfully perform Inspector scans.
+
 ---
 
 ## Note
@@ -118,5 +158,3 @@ The design of `security-scan-toolbox` is modular. To add new scanners:
 Ensure you have the necessary permissions to access the Docker socket and AWS credentials. For AWS SSO profiles, run `aws sso login --profile <your-aws-profile>` before scanning.
 
 ---
-
-This README is intended to evolve as new tools and features are added. Contributions and updates are welcome!
