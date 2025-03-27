@@ -1,6 +1,6 @@
 # security-scan-toolbox
 
-**security-scan-toolbox** is a Docker image that packages multiple security scanning tools into a single, easy-to-use container. A built-in dispatcher binary routes your command-line arguments to the appropriate scanner, letting you quickly assess your Docker images for vulnerabilities using your host’s configuration and credentials.
+**security-scan-toolbox** is a Docker image that packages multiple security scanning tools into a single, easy-to-use container. The recommended scans generally all align with Stride requirements, although there are additional scans available as well.
 
 ---
 
@@ -43,6 +43,18 @@ docker pull 025748181824.dkr.ecr.us-west-2.amazonaws.com/appsec/inspector-scanne
 ```
 
 This allows you to skip the local build process and use the latest version directly.
+
+## Important Note on Container Naming
+
+For the prebuilt scripts to function correctly, the Docker image must be named `security-toolbox`. Whether you build the image locally or pull it from the prebuilt repository, ensure the image is tagged as `security-toolbox`. 
+
+To rename the image after building or pulling, use the following command:
+
+```sh
+docker tag 025748181824.dkr.ecr.us-west-2.amazonaws.com/appsec/inspector-scanner:latest security-toolbox
+```
+
+This ensures compatibility with the provided scripts and examples.
 
 ## Usage Instructions
 
