@@ -57,7 +57,7 @@ workflows:
       - build:
           name: build-dev
           account_id: "025748181824"
-          oidc_role_arn: $AWS_OIDC_ROLE_STRIDEHEALTH
+          oidc_role_arn: $AWS_OIDC_ROLE_DEV
           environment: "dev"
       - test:
           requires:
@@ -72,7 +72,7 @@ workflows:
       - build:
           name: build-prod
           account_id: "025748181824"
-          oidc_role_arn: $AWS_OIDC_ROLE_STRIDEHEALTH
+          oidc_role_arn: $AWS_OIDC_ROLE_PROD
           environment: "prod"
           requires:
             - test
