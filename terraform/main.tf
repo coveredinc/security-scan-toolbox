@@ -31,7 +31,47 @@ module "ecr_repository" {
   environment      = local.environment
   lifecycle_policy = var.lifecycle_policy
 }
-# Test Output
+
+module "cci-oidc-role" {
+  source           = "git@github.com:coveredinc/tf-oidc-role?ref=v1.0.0"
+  application_name = "security-scan-toolbox"
+  environment      = local.environment
+  github_repo_name = "security-scan-toolbox"
+  role_path        = "/security/"
+}
+
+data "aws_iam_policy_document" "oidc_policy" {
+  statement {
+    sid       = "ECRActions"
+    effect    = "Allow"
+    actions   = [
+      "ecr:GetAuthorizationToken",
+      "ecr:BatchCheckLayerAvailability",
+      "ecr:GetDownloadUrlForLayer",
+      "ecr:GetRepositoryPolicy",
+      "ecr:DescribeRepositories",
+      "ecr:ListImages",
+      "ecr:PutImage",
+      "ecr:InitiateLayerUpload",
+      "ecr:UploadLayerPart",
+      "ecr:CompleteLayerUpload",
+      "ecr:CreateRepository"
+    ]
+    resources = ["*"]
+  }
+}
+
+resource "aws_iam_role_policy" "cci_role_oidc_policy" {
+  role   = module.cci-oidc-role.role_name
+  policy = data.aws_iam_policy_document.oidc_policy.json
+  name   = "security-scan-toolbox-oidc-policy"
+}
+
+#OUTPUTS
+output "oidc_role_arn" {
+  value = module.cci-oidc-role.role_arn
+}
+
 output "expected_repository_arn" {
   value = local.actual_repository_arn != "" ? upper(true) : "FALSE. Got ${local.actual_repository_arn}"
 }
