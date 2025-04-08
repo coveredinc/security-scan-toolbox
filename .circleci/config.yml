@@ -17,7 +17,10 @@ jobs:
       oidc_role_arn:
         type: string
         default: ""
-      environment:
+      env:
+        type: string
+        default: ""
+      region:
         type: string
         default: ""
     steps:
@@ -32,8 +35,8 @@ jobs:
           create_repo: false
           extra_build_args: --provenance=false
           push_image: true
-          region: <<# if parameters.environment == "dev" >>us-west-1<<# else >>us-west-2<<# endif >>
-          repo: "<< parameters.environment >>-security-scan-toolbox-ecr"
+          repo: "<< parameters.env >>-security-scan-toolbox-ecr"
+          region: << parameters.region >>
           skip_when_tags_exist: false
           tag: $SHORT_SHA, latest
 
@@ -44,7 +47,7 @@ jobs:
       - run:
           name: Pull Dev Image
           command: |
-            aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $DEV_ECR_URL
+            aws ecr get-login-password --region us-west-1 | docker login --username AWS --password-stdin $DEV_ECR_URL
             docker pull $DEV_ECR_URL/{}}
       - run:
           name: Run Tests
@@ -58,7 +61,8 @@ workflows:
           name: build-dev
           account_id: "025748181824"
           oidc_role_arn: $AWS_OIDC_ROLE_DEV
-          environment: "dev"
+          env: dev
+          region: us-west-1
       - test:
           requires:
             - build-dev
@@ -73,7 +77,8 @@ workflows:
           name: build-prod
           account_id: "025748181824"
           oidc_role_arn: $AWS_OIDC_ROLE_PROD
-          environment: "prod"
+          env: "prod"
+          region: us-west-2
           requires:
             - test
           filters:
