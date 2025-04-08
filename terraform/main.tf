@@ -6,6 +6,15 @@ provider "aws" {
   }
 }
 
+terraform {
+  backend "s3" {
+    bucket  = "stride-terraform"
+    key     = "env-shards/security-scan-toolbox/terraform.tfstate"
+    region  = "us-west-2"
+    encrypt = true
+  }
+}
+
 locals {
   expected_repository_name = "${local.environment}-security-scan-toolbox"
   actual_repository_name   = module.ecr_repository.repository_name
