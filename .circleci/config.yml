@@ -25,6 +25,11 @@ jobs:
         default: ""
     steps:
       - checkout
+      - run:
+          name: Define Environment Variable at Runtime
+          command: |
+            echo "export SHORT_SHA=$(echo $CIRCLE_SHA1 | head -c 7)" >> "$BASH_ENV"
+            source "$BASH_ENV"
       - setup_remote_docker:
           docker_layer_caching: true
       - aws-ecr/build_and_push_image:
@@ -40,7 +45,7 @@ jobs:
           repo: "<< parameters.env >>-security-scan-toolbox-ecr"
           region: << parameters.region >>
           skip_when_tags_exist: false
-          tag: $SHORT_SHA
+          tag: "$SHORT_SHA,latest"
 
   test:
     executor: docker-executor
