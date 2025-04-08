@@ -47,7 +47,7 @@ module "cci-oidc-role" {
   environment      = local.environment
   github_repo_name = "security-scan-toolbox"
   role_path        = "/security/"
-  custom_federated_principal_arn = "arn:aws:iam::025748181824:oidc-provider/oidc.circleci.com/org/4d220f8f-abb8-498f-b687-7ca09d7f744b"
+  circleci_project_id  = "16793f37-c35e-4d49-9e48-f1cbfe9f526d"
 }
 
 data "aws_iam_policy_document" "oidc_policy" {
