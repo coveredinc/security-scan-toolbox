@@ -42,12 +42,11 @@ module "ecr_repository" {
 }
 
 module "cci-oidc-role" {
-  source           = "git@github.com:coveredinc/tf-oidc-role?ref=v1.0.0"
-  application_name = "${local.environment}-security-scan-toolbox"
-  environment      = local.environment
-  github_repo_name = "security-scan-toolbox"
-  role_path        = "/security/"
-  circleci_project_id  = "16793f37-c35e-4d49-9e48-f1cbfe9f526d"
+  source              = "git@github.com:coveredinc/tf-oidc-role?ref=v1.0.0"
+  application_name    = "${local.environment}-security-scan-toolbox"
+  environment         = local.environment
+  role_path           = "/security/"
+  circleci_project_id = "16793f37-c35e-4d49-9e48-f1cbfe9f526d"
 }
 
 data "aws_iam_policy_document" "oidc_policy" {
