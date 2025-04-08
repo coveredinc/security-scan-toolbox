@@ -56,6 +56,7 @@ data "aws_iam_policy_document" "oidc_policy" {
     actions = [
       "ecr:GetAuthorizationToken",
       "ecr:BatchCheckLayerAvailability",
+      "ecr:BatchGetImage",
       "ecr:GetDownloadUrlForLayer",
       "ecr:GetRepositoryPolicy",
       "ecr:DescribeRepositories",
