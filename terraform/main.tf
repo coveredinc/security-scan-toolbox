@@ -43,7 +43,7 @@ module "ecr_repository" {
 
 module "cci-oidc-role" {
   source           = "git@github.com:coveredinc/tf-oidc-role?ref=v1.0.0"
-  application_name = "security-scan-toolbox"
+  application_name = "${local.environment}-security-scan-toolbox"
   environment      = local.environment
   github_repo_name = "security-scan-toolbox"
   role_path        = "/security/"
@@ -51,9 +51,9 @@ module "cci-oidc-role" {
 
 data "aws_iam_policy_document" "oidc_policy" {
   statement {
-    sid       = "ECRActions"
-    effect    = "Allow"
-    actions   = [
+    sid    = "ECRActions"
+    effect = "Allow"
+    actions = [
       "ecr:GetAuthorizationToken",
       "ecr:BatchCheckLayerAvailability",
       "ecr:GetDownloadUrlForLayer",
