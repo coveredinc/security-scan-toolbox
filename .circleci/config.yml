@@ -1,7 +1,7 @@
 version: 2.1
 orbs:
   aws-ecr: circleci/aws-ecr@9.4.0
-  aws-cli: circleci/aws-cli@4.2.0
+  aws-cli: circleci/aws-cli@5.2.0
 
 executors:
   docker-executor:
@@ -48,7 +48,13 @@ jobs:
           tag: "$SHORT_SHA,latest"
   test:
     executor: docker-executor
-    steps:
+    parameters:
+      oidc_role_arn:
+        type: string
+        default: ""
+    steps:        
+      - aws-cli/setup:
+          role_arn: << parameters.oidc_role_arn >>
       - setup_remote_docker
       - run:
           name: Pull Dev Image
@@ -70,6 +76,7 @@ workflows:
           env: dev
           region: us-west-1
       - test:
+          oidc_role_arn: $AWS_OIDC_ROLE_DEV
           requires:
             - build-push-dev
           context:
