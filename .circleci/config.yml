@@ -71,7 +71,7 @@ workflows:
           region: us-west-1
       - test:
           requires:
-            - build-dev
+            - build-push-dev
           context:
             - stride-global
       - approve:
