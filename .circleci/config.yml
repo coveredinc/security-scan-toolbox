@@ -46,7 +46,6 @@ jobs:
           region: << parameters.region >>
           skip_when_tags_exist: false
           tag: "$SHORT_SHA,latest"
-
   test:
     executor: docker-executor
     steps:
@@ -54,12 +53,12 @@ jobs:
       - run:
           name: Pull Dev Image
           command: |
-            aws ecr get-login-password --region us-west-1 | docker login --username AWS --password-stdin $DEV_ECR_URL
-            docker pull $DEV_ECR_URL/{}}
+            aws ecr get-login-password --region us-west-1 | docker login --username AWS --password-stdin $AWS_ECR_ACCOUNT_DEV_URL
+            docker pull $AWS_ECR_ACCOUNT_DEV_URL/dev-security-scan-toolbox-ecr:latest
       - run:
           name: Run Tests
           command: |
-            docker run --rm $DEV_ECR_URL/{} dispatcher --help
+            docker run --rm $AWS_ECR_ACCOUNT_DEV_URL/dev-security-scan-toolbox-ecr:latest dispatcher --help
 
 workflows:
   build-test-deploy:
@@ -73,6 +72,8 @@ workflows:
       - test:
           requires:
             - build-dev
+          context:
+            - stride-global
       - approve:
           type: approval
           requires:
