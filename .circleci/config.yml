@@ -64,7 +64,7 @@ jobs:
       - run:
           name: Run Tests
           command: |
-            docker run --rm $AWS_ECR_ACCOUNT_DEV_URL/dev-security-scan-toolbox-ecr:latest dispatcher --help
+            docker run --rm $AWS_ECR_ACCOUNT_DEV_URL/dev-security-scan-toolbox-ecr:latest trivy --version
 
 workflows:
   build-test-deploy:
