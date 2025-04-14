@@ -39,7 +39,7 @@ This will create a local Docker image named `security-toolbox` that you can use 
 The `security-scan-toolbox` Docker image is also available as a prebuilt image hosted on Amazon ECR. You can pull it using the following command:
 
 ```sh
-docker pull 025748181824.dkr.ecr.us-west-2.amazonaws.com/appsec/inspector-scanner:latest
+docker pull 025748181824.dkr.ecr.us-west-2.amazonaws.com/prod-security-scan-toolbox-ecr:latest
 ```
 
 This allows you to skip the local build process and use the latest version directly.
@@ -58,12 +58,14 @@ This ensures compatibility with the provided scripts and examples.
 
 ## Usage Instructions
 
-Refer to the example scripts provided in the repository for examples. These scripts demonstrate how to use the various tools included in the `security-scan-toolbox`.
+Refer to the example scripts provided in the repository for examples. These scripts demonstrate how to use the various tools included in the `security-scan-toolbox`. You may need to slightly modify these scripts to meet your needs
 
 Alternatively, users can run the `ez_run` script, which provides an interactive, step-by-step guide to help them through the scanning process. This script simplifies the workflow and ensures all necessary configurations are correctly set up.
 
 
 ### Explanation of Configurable Parts
+
+As long as you are authenticated and have your profile set, you don't really need to worry about these unless you are running custom commands.
 
 - `-v ~/.aws/:/root/.aws/:ro`: Mounts your local AWS configuration (credentials and config files) into the container at `/root/.aws`. Ensure your AWS credentials reside in `~/.aws/`.
 - `-v /var/run/docker.sock:/var/run/docker.sock`: Grants the container access to the Docker daemon on your host.
