@@ -53,12 +53,12 @@ jobs:
       - run:
           name: Pull Dev Image
           command: |
-            aws ecr get-login-password --region us-west-1 | docker login --username AWS --password-stdin $AWS_ECR_ACCOUNT_DEV_URL
-            docker pull $AWS_ECR_ACCOUNT_DEV_URL/dev-security-scan-toolbox-ecr:latest
+            aws ecr get-login-password --region us-west-1 | docker login --username AWS --password-stdin 025748181824.dkr.ecr.us-west-1.amazonaws.com
+            docker pull 025748181824.dkr.ecr.us-west-1.amazonaws.com/dev-security-scan-toolbox-ecr:latest
       - run:
           name: Run Tests
           command: |
-            docker run --rm $AWS_ECR_ACCOUNT_DEV_URL/dev-security-scan-toolbox-ecr:latest dispatcher --help
+            docker run --rm 025748181824.dkr.ecr.us-west-1.amazonaws.com/dev-security-scan-toolbox-ecr:latest dispatcher --help
 
 workflows:
   build-test-deploy:
