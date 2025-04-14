@@ -64,7 +64,7 @@ workflows:
   build-test-deploy:
     jobs:
       - build:
-          name: build-dev
+          name: build-push-dev
           account_id: "025748181824"
           oidc_role_arn: $AWS_OIDC_ROLE_DEV
           env: dev
@@ -82,7 +82,7 @@ workflows:
             branches:
               only: main
       - build:
-          name: build-prod
+          name: build-push-prod
           account_id: "025748181824"
           oidc_role_arn: $AWS_OIDC_ROLE_PROD
           env: "prod"
