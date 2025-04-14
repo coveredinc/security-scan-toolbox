@@ -51,7 +51,7 @@ For the prebuilt scripts to function correctly, the Docker image must be named `
 To rename the image after pulling, use the following command:
 
 ```sh
-docker tag 025748181824.dkr.ecr.us-west-2.amazonaws.com/appsec/inspector-scanner:latest security-toolbox
+docker tag 025748181824.dkr.ecr.us-west-2.amazonaws.com/prod-security-scan-toolbox-ecr:latest security-toolbox
 ```
 
 This ensures compatibility with the provided scripts and examples.
